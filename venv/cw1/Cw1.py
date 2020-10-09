@@ -1,12 +1,23 @@
 import re
 from cmath import sqrt
 
-from numpy import save
-
 D1 = "bazy relacyjne, bazy tekstowe, bazy inne"
 D2 = "bazy danych: przykady, zastosowania"
 D3 = "bazy danych - zalety; bazy danych - wady"
 D4 = "skadowanie danych"
+
+def containS(word,d):
+    if word in d:
+        return(1)
+    else:
+        return(0)
+
+def vCacl(tab,ind):
+    vD = 0
+    for i in range(len(tab)):
+        vD += int(tab[i][ind])*int(tab[i][ind])
+    vD = sqrt(vD)
+    return(vD)
 
 def cutter(sentence):
     sentence = re.sub(", ", " ", sentence)
@@ -18,52 +29,59 @@ def cutter(sentence):
     sentence = list(sentence)
     return sentence
 
+def printer(D1,D2,D3,D4):
+    print(D1)
+    print(D2)
+    print(D3)
+    print(D4)
+    print(" ")
+
+printer(D1,D2,D3,D4)
+
 D1 = cutter(D1)
 D2 = cutter(D2)
 D3 = cutter(D3)
 D4 = cutter(D4)
 
-print(D1)
-print(D2)
-print(D3)
-print(D4)
-print(" ")
+printer(D1,D2,D3,D4)
 
-Cont = D1 + D2 + D3 + D4
-Cont = set(Cont)
-Cont = list(Cont)
-Cont.sort()
+allWords = D1 + D2 + D3 + D4
+allWords = set(allWords)
+allWords = list(allWords)
+allWords.sort()
 
-print(Cont)
+print(allWords)
 print(" ")
 print("slowo:           D1 D2 D3 D4")
 
-table = [[None]*5]*len(Cont)
-for i in range(len(Cont)):
-    table[i][0] = Cont[i]
-    word = Cont[i]
-    if word in D1:
-        table[i][1] = "1"
-    if not word in D1:
-        table[i][1] = "0"
+tab = [[[None] for i in range(5)] for i in range(len(allWords))]
+for i in range(len(allWords)):
 
-    if word in D2:
-        table[i][2] = "1"
-    if not word in D2:
-        table[i][2] = "0"
+    word = allWords[i]
+    tab[i][0] = word
 
-    if word in D3:
-        table[i][3] = "1"
-    if not word in D3:
-        table[i][3] = "0"
-
-    if word in D4:
-        table[i][4] = "1"
-    if not word in D4:
-        table[i][4] = "0"
+    tab[i][1] = containS(word, D1)
+    tab[i][2] = containS(word, D2)
+    tab[i][3] = containS(word, D3)
+    tab[i][4] = containS(word, D4)
 
     #printing formatter V
-    table[i][0] = "{:<12}".format(table[i][0])
-    print(table[i])
-for i in range(5):
-    print(table[i])
+    tab[i][0] = "{:<12}".format(tab[i][0])
+    print(tab[i])
+
+vD1 = vCacl(tab,1).real
+vD2 = vCacl(tab,2).real
+vD3 = vCacl(tab,3).real
+vD4 = vCacl(tab,4).real
+
+print("vD1 = " + str(vD1))
+print("vD2 = " + str(vD2))
+print("vD3 = " + str(vD3))
+print("vD4 = " + str(vD4))
+
+for j in range(len(allWords)):
+    tab[j][1] ="{:<4}".format( round(tab[j][1]/vD1 , 2))
+    tab[j][2] ="{:<4}".format( round(tab[j][2]/vD2 , 2))
+    tab[j][3] ="{:<4}".format( round(tab[j][3]/vD3 , 2))
+    tab[j][4] ="{:<4}".format( round(tab[j][4]/vD4 , 2))
+    print(tab[j])
