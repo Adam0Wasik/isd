@@ -85,8 +85,8 @@ print(" ")
 
 print(" Tablica po normalizacji")
 for j in range(len(allWords)):
-    tab[j][1] ="{:<6}".format( round( tab[j][1] * (tab[j][1]/vD1) , 4))
-    tab[j][2] ="{:<6}".format( round( tab[j][2] * (tab[j][2]/vD2) , 4))
-    tab[j][3] ="{:<6}".format( round( tab[j][3] * (tab[j][3]/vD3) , 4))
-    tab[j][4] ="{:<6}".format( round( tab[j][4] * (tab[j][4]/vD4) , 4))
+    tab[j][1] ="{:<6}".format( round( tab[j][1] * (1/vD1) , 4))
+    tab[j][2] ="{:<6}".format( round( tab[j][2] * (1/vD2) , 4))
+    tab[j][3] ="{:<6}".format( round( tab[j][3] * (1/vD3) , 4))
+    tab[j][4] ="{:<6}".format( round( tab[j][4] * (1/vD4) , 4))
     print(tab[j])
