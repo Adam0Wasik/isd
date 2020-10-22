@@ -50,6 +50,7 @@ D2 = "bazy danych: przyklady, zastosowania"
 D3 = "bazy danych - zalety; bazy danych - wady"
 D4 = "skladowanie danych"
 Z  = "bazy danych"
+# Z  = input("Podaj zapytanie:\n")
 DV = 4
 
 print("Podstawowe pliki:")
@@ -118,7 +119,7 @@ print("vD3 = " + str(vD3))
 print("vD4 = " + str(vD4))
 print(" ")
 
-print(" Tablica ")
+print(" Tablica po pierwszej normalizacji")
 for j in range(len(allWords)):
     tab[j][1] ="{:<6}".format(round(   tab[j][1] * (1/vD1)    , 4))
     tab[j][2] ="{:<6}".format(round(   tab[j][2] * (1/vD2)    , 4))
@@ -129,7 +130,7 @@ for j in range(len(allWords)):
 print(" ")
 
 
-print(" Tablica po indeksowaniu?")
+print(" Tablica po indeksowaniu")
 for j in range(len(allWords)):
     tab[j][1] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][1]   , 4) )
     tab[j][2] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][2]   , 4) )
