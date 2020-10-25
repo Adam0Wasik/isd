@@ -104,4 +104,4 @@ for i in range(productQTY):
 print("\n\nMacierz podobieństwa produktów\n")
 for i in range(productQTY):
     print(itemSimilarity[i])
-
+#
