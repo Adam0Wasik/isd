@@ -52,18 +52,18 @@ D2 = "bazy danych: przyklady, zastosowania"
 D3 = "bazy danych - zalety; bazy danych - wady"
 D4 = "składowanie danych"
 # Z  = "bazy danych"
-Z  = input("Podaj zapytanie:\n")
-DV = 4
-
+print("Program sprawdzi podobienstwo zadanego zapytania do przedstawionych plikow")
 print("Podstawowe pliki:")
 printer(D1,D2,D3,D4)
+Z = input("Podaj zapytanie:\n")
+DV = 4
 
 print("Wycięte tagi:")
 words = cutter(D1,D2,D3,D4)
 for i in words:
     print(i)
 
-D1,D2,D3,D4,Z  = [sentence for sentence in  cutter(D1,D2,D3,D4,Z) ]
+D1,D2,D3,D4,Z = [sentence for sentence in  cutter(D1,D2,D3,D4,Z) ]
 
 allWords = D1 + D2 + D3 + D4
 allWords = set(allWords)

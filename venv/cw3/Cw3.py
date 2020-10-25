@@ -1,6 +1,7 @@
 from cmath import sqrt
 
 N = 2
+NN = 4
 customerQTY = 4
 productQTY  = 9
 customerProduct = [     [1, 0, 0, 1, 0, 1, 1, 1, 1],
@@ -104,4 +105,32 @@ for i in range(productQTY):
 print("\n\nMacierz podobieństwa produktów\n")
 for i in range(productQTY):
     print(itemSimilarity[i])
-#
+product = int(input("\n\nPodaj nr produktu 1-9:\n"))
+product = product - 1
+sortedProducts = list(itemSimilarity[product])
+listProducts = list(itemSimilarity[product])
+sortedProducts.sort(reverse = True)
+productSim = [0 for i in range(NN)]
+for i in range(NN):
+    productSim[i] = sortedProducts[i+1]
+
+[[0 for i in range(NN)]for i in range(NN)]
+newCustomerProduct = [[0 for i in range(NN+1)]for i in range(customerQTY)]
+# print(productSim)
+
+indexes = [0 for i in range(NN)]
+asd = 0
+for i in range(productQTY):
+    if itemSimilarity[product][i] == productSim[asd]:
+        indexes[asd] = i
+        asd = asd + 1
+print("\n   P1         P7       P8        P9        A")
+for i in range(NN):
+    suma = 0
+    for j in range(NN):
+        newCustomerProduct[i][j] = float(customerProduct[i][indexes[j]]) * float(productSim[i])
+        suma = suma + newCustomerProduct[i][j]
+        newCustomerProduct[i][j] = formatter(newCustomerProduct[i][j])
+
+    newCustomerProduct[i][NN] = formatter(suma/NN)
+    print("K" + str(i+1) + str(newCustomerProduct[i]))
