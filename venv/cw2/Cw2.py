@@ -28,41 +28,42 @@ def vCacl(tab,ind):
     vD = sqrt(vD)
     return(vD)
 
-def cutter(sentence):
-    sentence = re.sub(", ", " ", sentence)
-    sentence = re.sub(" - ", " ", sentence)
-    sentence = re.sub(": ", " ", sentence)
-    sentence = re.sub("; ", " ", sentence)
-    sentence = sentence.split(" ")
-    sentence = list(sentence)
-    return sentence
+def cutter(*args):
+    tab = [[0] for i in range(len(args))]
+    i = 0
+    for sentence in args:
+        sentence = re.sub(", ", " ", sentence)
+        sentence = re.sub(" - ", " ", sentence)
+        sentence = re.sub(": ", " ", sentence)
+        sentence = re.sub("; ", " ", sentence)
+        sentence = sentence.split(" ")
+        sentence = list(sentence)
+        tab[i] = sentence
+        i = i +1
+    return tab
 
-def printer(D1,D2,D3,D4):
-    print(D1)
-    print(D2)
-    print(D3)
-    print(D4)
-    print(" ")
+def printer(*args):
+    for element in args:
+        print(element)
 ########################################################################################################################
 
 D1 = "bazy relacyjne, bazy tekstowe, bazy inne"
 D2 = "bazy danych: przyklady, zastosowania"
 D3 = "bazy danych - zalety; bazy danych - wady"
-D4 = "skladowanie danych"
-Z  = "bazy danych"
-# Z  = input("Podaj zapytanie:\n")
+D4 = "składowanie danych"
+# Z  = "bazy danych"
+Z  = input("Podaj zapytanie:\n")
 DV = 4
 
 print("Podstawowe pliki:")
 printer(D1,D2,D3,D4)
 
-D1 = cutter(D1)
-D2 = cutter(D2)
-D3 = cutter(D3)
-D4 = cutter(D4)
-Z = cutter(Z)
 print("Wycięte tagi:")
-printer(D1,D2,D3,D4)
+words = cutter(D1,D2,D3,D4)
+for i in words:
+    print(i)
+
+D1,D2,D3,D4,Z  = [sentence for sentence in  cutter(D1,D2,D3,D4,Z) ]
 
 allWords = D1 + D2 + D3 + D4
 allWords = set(allWords)
@@ -75,84 +76,62 @@ print(" ")
 print("Czestowtliwosc wystepowania w pliku:")
 print("slowo:           D1 D2 D3 D4  Z")
 
-tab  = [[[0] for i in range(6)] for i in range(len(allWords))]
-tab2 = [[[0] for j in range(6)] for j in range(len(allWords))]
-tab3 = [[[0] for j in range(6)] for j in range(len(allWords))]
+tab, tab2, tab3  =[ [[[0] for i in range(6)] for j in range(len(allWords))] for k in range(3)]
+vecD = [[0] for i in range(DV)]
+words.append(Z)
 for i in range(len(allWords)):
-
+    i = i
     word = allWords[i]
     tab[i][0] = word
     tab2[i][0] = word
 
-    tab[i][1] = containSQty(word, D1)
-    tab[i][2] = containSQty(word, D2)
-    tab[i][3] = containSQty(word, D3)
-    tab[i][4] = containSQty(word, D4)
-    tab[i][5] = containSQty(word, Z)
+    for j in range(len(words)):
+        tab[i][j+1] = containSQty(word, words[j])
 
-    tab2[i][1] = containS(word, D1)
-    tab2[i][2] = containS(word, D2)
-    tab2[i][3] = containS(word, D3)
-    tab2[i][4] = containS(word, D4)
-    tab2[i][5] = containS(word, Z)
+    for j in range(len(words)):
+        tab2[i][j+1] = containS(word, words[j])
 
-    tab3[i][1] = containSQty(word, D1)
-    tab3[i][2] = containSQty(word, D2)
-    tab3[i][3] = containSQty(word, D3)
-    tab3[i][4] = containSQty(word, D4)
-    tab3[i][5] = containSQty(word, Z)
+    for j in range(len(words)):
+        tab3[i][j+1] = containSQty(word, words[j])
 
     #printing formatter V
     tab[i][0] = "{:<12}".format(tab[i][0])
     print(tab[i])
 
 print(" ")
-vD1 = vCacl(tab,1).real
-vD2 = vCacl(tab,2).real
-vD3 = vCacl(tab,3).real
-vD4 = vCacl(tab,4).real
-
-print("długości")
-print("vD1 = " + str(vD1))
-print("vD2 = " + str(vD2))
-print("vD3 = " + str(vD3))
-print("vD4 = " + str(vD4))
-print(" ")
+for i in range(DV):
+    vecD[i] = vCacl(tab,i+1).real
+    print(vCacl(tab,i+1).real)
 
 print(" Tablica po pierwszej normalizacji")
 for j in range(len(allWords)):
-    tab[j][1] ="{:<6}".format(round(   tab[j][1] * (1/vD1)    , 4))
-    tab[j][2] ="{:<6}".format(round(   tab[j][2] * (1/vD2)    , 4))
-    tab[j][3] ="{:<6}".format(round(   tab[j][3] * (1/vD3)    , 4))
-    tab[j][4] ="{:<6}".format(round(   tab[j][4] * (1/vD4)    , 4))
-    tab[j][5] ="{:<6}".format(round(   tab[j][5] * (1/vD4)    , 4))
+    tab[j][1] ="{:<6}".format(round(   tab[j][1] * (1/vecD[0])    , 4))
+    tab[j][2] ="{:<6}".format(round(   tab[j][2] * (1/vecD[1])    , 4))
+    tab[j][3] ="{:<6}".format(round(   tab[j][3] * (1/vecD[2])    , 4))
+    tab[j][4] ="{:<6}".format(round(   tab[j][4] * (1/vecD[3])    , 4))
+    tab[j][5] ="{:<6}".format(round(   tab[j][5] * (1/vecD[3])    , 4))
     print(tab[j])
 print(" ")
-
 
 print(" Tablica po indeksowaniu")
 for j in range(len(allWords)):
-    tab[j][1] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][1]   , 4) )
-    tab[j][2] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][2]   , 4) )
-    tab[j][3] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][3]   , 4) )
-    tab[j][4] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][4]   , 4) )
+    for k in range(1,DV+1):
+        tab[j][k] ="{:<6}".format(round(   math.log2(DV/wordCounter(tab2,j))* tab3[j][k]   , 4) )
+
     print(tab[j])
 
 print(" ")
-vD1 = vCacl(tab,1).real
-vD2 = vCacl(tab,2).real
-vD3 = vCacl(tab,3).real
-vD4 = vCacl(tab,4).real
+vecD = [[0] for i in range(DV)]
+for i in range(DV):
+    vecD[i] = vCacl(tab,i+1).real
+    print(vCacl(tab,i+1).real)
 
 print(" Tablica znormalizowana")
 for j in range(len(allWords)):
-    tab[j][1] ="{:<6}".format(round(   float(tab[j][1]) * (1/vD1)    , 4))
-    tab[j][2] ="{:<6}".format(round(   float(tab[j][2]) * (1/vD2)    , 4))
-    tab[j][3] ="{:<6}".format(round(   float(tab[j][3]) * (1/vD3)    , 4))
-    tab[j][4] ="{:<6}".format(round(   float(tab[j][4]) * (1/vD4)    , 4))
+    for k in range(1, DV + 1):
+        tab[j][k] ="{:<6}".format(round(   float(tab[j][k]) * (1/vecD[k-1])    , 4))
     print(tab[j])
 print(" ")
-
 
 #Podobienstwa
 pD1 = 0
@@ -160,22 +139,16 @@ pD2 = 0
 pD3 = 0
 pD4 = 0
 for j in range(len(allWords)):
-    tab[j][1] ="{:<6}".format(round( float(tab[j][1]) * float(tab[j][5])     , 4))
-    tab[j][2] ="{:<6}".format(round( float(tab[j][2]) * float(tab[j][5])     , 4))
-    tab[j][3] ="{:<6}".format(round( float(tab[j][3]) * float(tab[j][5])     , 4))
-    tab[j][4] ="{:<6}".format(round( float(tab[j][4]) * float(tab[j][5])     , 4))
+    for k in range(1, DV + 1):
+        tab[j][k] ="{:<6}".format(round( float(tab[j][k]) * float(tab[j][5])     , 4))
+
     pD1 = pD1 + float(tab[j][1])
     pD2 = pD2 + float(tab[j][2])
     pD3 = pD3 + float(tab[j][3])
     pD4 = pD4 + float(tab[j][4])
 
-
-
 print("Pliki:")
-print(D1)
-print(D2)
-print(D3)
-print(D4)
+printer(D1,D2,D3,D4)
 print(" ")
 
 print("Zapytanie:")
@@ -187,5 +160,3 @@ print("podobieństwo zapytania Z do D1 = " + str(pD1))
 print("podobieństwo zapytania Z do D2 = " + str(pD2))
 print("podobieństwo zapytania Z do D3 = " + str(pD3))
 print("podobieństwo zapytania Z do D4 = " + str(pD4))
-
-
