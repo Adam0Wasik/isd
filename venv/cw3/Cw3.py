@@ -124,6 +124,7 @@ for i in range(productQTY):
     if itemSimilarity[product][i] == productSim[asd]:
         indexes[asd] = i
         asd = asd + 1
+indexes.sort()
 print("\n   P1         P7       P8        P9        A")
 for i in range(NN):
     suma = 0
@@ -134,3 +135,4 @@ for i in range(NN):
 
     newCustomerProduct[i][NN] = formatter(suma/NN)
     print("K" + str(i+1) + str(newCustomerProduct[i]))
+print("test")
