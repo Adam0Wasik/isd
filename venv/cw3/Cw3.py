@@ -8,6 +8,7 @@ customerProduct = [     [1, 0, 0, 1, 0, 1, 1, 1, 1],
                         [1, 0, 0, 1, 0, 0, 0, 1, 1],
                         [0, 0, 0, 0, 0, 0, 1, 0, 0],
                         [0, 0, 1, 1, 1, 0, 0, 0, 0],  ]
+
 [print(line) for line in customerProduct]
 print(" ")
 
@@ -78,7 +79,24 @@ for i in range(len(newTab)):
 ########################################################################################################################
 itemSimilarity = [[0 for i in range(productQTY)]for j in range(productQTY)]
 
+itemsToShow = []
+for i in range(productQTY):
+    if customerProduct[client-1][i]!=1:
+        itemsToShow.append([newTab[2][i],i])
+# bubblesorting items
+for i in range(len(itemsToShow)):
+    for j in range(len(itemsToShow)):
+        if itemsToShow[i][0] > itemsToShow[j][0]:
+            itemsToShow[i] , itemsToShow[j] = itemsToShow[j], itemsToShow[i]
 
+print("\n Rekomendacja produktów w oparciu o wybranego kilenta k" + str(client) + ": wartość podobieństwa, index")
+print(itemsToShow)
+print("\n\n###############################################################################################################")
+print("###############################################################################################################")
+print("###############################################################################################################")
+print("###############################################################################################################")
+print("###############################################################################################################")
+print("###############################################################################################################")
 productVectors = list([[] for i in range(productQTY)])
 for i in range(productQTY):
     for k in range(customerQTY):
